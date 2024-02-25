@@ -1,6 +1,9 @@
 package com.tgpc.doctoappt.user.service;
 
+import com.tgpc.doctoappt.user.dto.DoctorResponse;
 import com.tgpc.doctoappt.user.dto.PatientRequest;
+import com.tgpc.doctoappt.user.dto.PatientResponse;
+import com.tgpc.doctoappt.user.model.Doctor;
 import com.tgpc.doctoappt.user.model.Patient;
 import com.tgpc.doctoappt.user.repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,8 +21,13 @@ public class PatientService {
         return patientRepository.findAll();
     }
 
-    public Optional<Patient> findById(Long id) {
-        return patientRepository.findById(id);
+    public PatientResponse findById(Long id) {
+        Optional<Patient> patientOptional = patientRepository.findById(id);
+        if(patientOptional.isPresent()){
+            Patient patient = patientOptional.get();
+            return new PatientResponse(patient.getName(),  patient.getAddress(), patient.getPinCode());
+        }
+        return null;
     }
 
     public Patient save(PatientRequest patientRequest) {

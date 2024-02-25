@@ -1,6 +1,7 @@
 package com.tgpc.doctoappt.user.controller;
 
 import com.tgpc.doctoappt.user.dto.PatientRequest;
+import com.tgpc.doctoappt.user.dto.PatientResponse;
 import com.tgpc.doctoappt.user.service.PatientService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,5 +19,10 @@ public class PatientController {
     public String createPatient(@RequestBody PatientRequest patientRequest){
         patientService.save(patientRequest);
         return "Patient Created Successfully";
+    }
+
+    @GetMapping(value = "/{id}")
+    public PatientResponse getPatientDetails(@PathVariable("id") Long patientId){
+        return patientService.findById(patientId);
     }
 }

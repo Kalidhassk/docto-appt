@@ -1,6 +1,7 @@
 package com.tgpc.doctoappt.user.service;
 
 import com.tgpc.doctoappt.user.dto.DoctorRequest;
+import com.tgpc.doctoappt.user.dto.DoctorResponse;
 import com.tgpc.doctoappt.user.model.Doctor;
 import com.tgpc.doctoappt.user.model.Patient;
 import com.tgpc.doctoappt.user.model.SpecialityEnum;
@@ -20,8 +21,13 @@ public class DoctorService {
         return doctorRepository.findAll();
     }
 
-    public Optional<Doctor> findById(Long id) {
-        return doctorRepository.findById(id);
+    public DoctorResponse findById(Long id) {
+        Optional<Doctor> doctorOptional = doctorRepository.findById(id);
+        if(doctorOptional.isPresent()){
+            Doctor doctor = doctorOptional.get();
+            return new DoctorResponse(doctor.getName(), doctor.getHospitalName(), doctor.getSpecialityEnum().name(), doctor.getAddress(), doctor.getPinCode());
+        }
+        return null;
     }
 
     public Doctor save(DoctorRequest doctorRequest) {
