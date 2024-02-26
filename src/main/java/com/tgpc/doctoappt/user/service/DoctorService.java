@@ -9,23 +9,33 @@ import com.tgpc.doctoappt.user.repository.DoctorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class DoctorService {
     @Autowired
     private DoctorRepository doctorRepository;
 
-    public List<Doctor> findAll() {
-        return doctorRepository.findAll();
+    public List<DoctorResponse> findAll() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+        if(!doctorList.isEmpty()){
+            return doctorList.stream().map(this::mapToDoctorResponse).collect(Collectors.toList());
+        }
+        return new ArrayList<>();
+    }
+
+    private DoctorResponse mapToDoctorResponse(Doctor doctor){
+        return new DoctorResponse(doctor.getName(), doctor.getHospitalName(), doctor.getSpecialityEnum().name(), doctor.getAddress(), doctor.getPinCode());
     }
 
     public DoctorResponse findById(Long id) {
         Optional<Doctor> doctorOptional = doctorRepository.findById(id);
         if(doctorOptional.isPresent()){
             Doctor doctor = doctorOptional.get();
-            return new DoctorResponse(doctor.getName(), doctor.getHospitalName(), doctor.getSpecialityEnum().name(), doctor.getAddress(), doctor.getPinCode());
+            return mapToDoctorResponse(doctor);
         }
         return null;
     }

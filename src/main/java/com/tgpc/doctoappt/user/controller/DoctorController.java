@@ -24,6 +24,11 @@ public class DoctorController {
         return "User Created Successfully";
     }
 
+    @GetMapping
+    public List<DoctorResponse> getDoctors(){
+        return doctorService.findAll();
+    }
+
     @GetMapping(value = "/{id}")
     public DoctorResponse getDoctorDetails(@PathVariable("id") Long doctorId){
         return doctorService.findById(doctorId);
