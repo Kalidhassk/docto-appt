@@ -58,6 +58,11 @@ public class DoctorService {
         return doctor;
     }
 
+    public List<DoctorResponse> searchDoctors(String query){
+        List<Doctor> doctorList = doctorRepository.searchDoctors(query);
+        return doctorList.stream().map(this::mapToDoctorResponse).collect(Collectors.toList());
+    }
+
     public void deleteById(Long id) {
         doctorRepository.deleteById(id);
     }

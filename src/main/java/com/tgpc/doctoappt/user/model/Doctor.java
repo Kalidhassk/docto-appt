@@ -18,6 +18,7 @@ public class Doctor extends User{
 
     private String hospitalName;
 
+    @Enumerated(EnumType.STRING)
     private SpecialityEnum specialityEnum;
 
     @OneToMany

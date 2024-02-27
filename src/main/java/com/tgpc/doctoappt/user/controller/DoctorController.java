@@ -1,6 +1,5 @@
 package com.tgpc.doctoappt.user.controller;
 
-import com.tgpc.doctoappt.appointment.dto.AppointmentResponse;
 import com.tgpc.doctoappt.user.dto.DoctorRequest;
 import com.tgpc.doctoappt.user.dto.DoctorResponse;
 import com.tgpc.doctoappt.user.service.DoctorService;
@@ -32,5 +31,10 @@ public class DoctorController {
     @GetMapping(value = "/{id}")
     public DoctorResponse getDoctorDetails(@PathVariable("id") Long doctorId){
         return doctorService.findById(doctorId);
+    }
+
+    @GetMapping(value = "/search")
+    public List<DoctorResponse> searchDoctors(@RequestParam("query") String query){
+        return doctorService.searchDoctors(query);
     }
 }
