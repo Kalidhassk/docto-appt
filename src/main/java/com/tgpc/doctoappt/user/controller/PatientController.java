@@ -16,9 +16,8 @@ public class PatientController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createPatient(@RequestBody PatientRequest patientRequest){
-        patientService.save(patientRequest);
-        return "Patient Created Successfully";
+    public PatientResponse createPatient(@RequestBody PatientRequest patientRequest){
+        return patientService.save(patientRequest);
     }
 
     @GetMapping(value = "/{id}")

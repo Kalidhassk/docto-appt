@@ -1,4 +1,4 @@
 package com.tgpc.doctoappt.user.dto;
 
-public record PatientResponse(String name, String address, Integer pinCode) {
+public record PatientResponse(Long id, String name, String address, Integer pinCode) {
 }

@@ -28,7 +28,7 @@ public class DoctorService {
     }
 
     private DoctorResponse mapToDoctorResponse(Doctor doctor){
-        return new DoctorResponse(doctor.getName(), doctor.getHospitalName(), doctor.getSpecialityEnum().name(), doctor.getAddress(), doctor.getPinCode());
+        return new DoctorResponse(doctor.getId(), doctor.getName(), doctor.getHospitalName(), doctor.getSpecialityEnum().name(), doctor.getAddress(), doctor.getPinCode());
     }
 
     public DoctorResponse findById(Long id) {
@@ -40,9 +40,14 @@ public class DoctorService {
         return null;
     }
 
-    public Doctor save(DoctorRequest doctorRequest) {
-        Doctor doctor = mapToDoctor(doctorRequest);
-        return doctorRepository.save(doctor);
+    public DoctorResponse save(DoctorRequest doctorRequest) {
+        String email = doctorRequest.email();
+        Doctor doctor = doctorRepository.findByEmail(email);
+        if(doctor == null){
+            doctor = mapToDoctor(doctorRequest);
+            doctor = doctorRepository.save(doctor);
+        }
+        return mapToDoctorResponse(doctor);
     }
 
     private Doctor mapToDoctor(DoctorRequest doctorRequest){

@@ -14,4 +14,6 @@ public interface DoctorRepository extends UserRepository<Doctor> {
             "OR d.hospitalName LIKE CONCAT('%', :query, '%') " +
             "OR d.specialityEnum LIKE CONCAT('%', :query, '%')")
     List<Doctor> searchDoctors(String query);
+
+    Doctor findByEmail(String email);
 }

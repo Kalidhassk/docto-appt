@@ -23,19 +23,23 @@ public class PatientService {
 
     public PatientResponse findById(Long id) {
         Optional<Patient> patientOptional = patientRepository.findById(id);
-        if(patientOptional.isPresent()){
+        if (patientOptional.isPresent()) {
             Patient patient = patientOptional.get();
-            return new PatientResponse(patient.getName(),  patient.getAddress(), patient.getPinCode());
+            return new PatientResponse(patient.getId(), patient.getName(), patient.getAddress(), patient.getPinCode());
         }
         return null;
     }
 
-    public Patient save(PatientRequest patientRequest) {
-        Patient patient = mapToPatient(patientRequest);
-        return patientRepository.save(patient);
+    public PatientResponse save(PatientRequest patientRequest) {
+        Patient patient = patientRepository.findByEmail(patientRequest.email());
+        if (patient == null) {
+            patient = mapToPatient(patientRequest);
+            patient = patientRepository.save(patient);
+        }
+        return new PatientResponse(patient.getId(), patient.getName(), patient.getAddress(), patient.getPinCode());
     }
 
-    private Patient mapToPatient(PatientRequest patientRequest){
+    private Patient mapToPatient(PatientRequest patientRequest) {
         Patient patient = new Patient();
         patient.setName(patientRequest.name());
         patient.setEmail(patientRequest.email());

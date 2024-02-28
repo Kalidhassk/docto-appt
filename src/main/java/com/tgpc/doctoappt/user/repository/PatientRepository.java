@@ -5,4 +5,5 @@ import jakarta.transaction.Transactional;
 
 @Transactional
 public interface PatientRepository extends UserRepository<Patient> {
+    Patient findByEmail(String email);
 }

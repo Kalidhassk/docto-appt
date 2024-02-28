@@ -18,9 +18,8 @@ public class DoctorController {
 
     @PostMapping
     @ResponseStatus(HttpStatus.CREATED)
-    public String createDoctor(@RequestBody DoctorRequest doctorRequest){
-        doctorService.save(doctorRequest);
-        return "User Created Successfully";
+    public DoctorResponse createDoctor(@RequestBody DoctorRequest doctorRequest){
+        return doctorService.save(doctorRequest);
     }
 
     @GetMapping
